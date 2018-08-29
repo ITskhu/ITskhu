@@ -5,6 +5,7 @@ import java.io.File;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.investigation.VO.QuestionVO;
+
 
 /*
  * 관리자 전용 컨트롤러
@@ -26,6 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
+
+	@Autowired
+	private UploadQuestionService uploadQuestionService;
 
 	/*
 	 * 설문 목록
@@ -83,6 +89,9 @@ public class ManagerController {
 		System.out.println("타입="+excelFile.getContentType());
 		System.out.println("titleName="+titleName);
 
+		QuestionVO question = new QuestionVO();
+		question.setName(titleName);
+
 		/*
 		 * 엑셀 파일 시그니처
 		 *  50 4B 03 04
@@ -90,6 +99,13 @@ public class ManagerController {
 		 *   D0 CF 11 E0
 		 *   이렇게 3개 검사해서, 해당 파일이 엑셀파일인지 아닌지 확인하는 보안 코드 나중에 작성
 		 */
+
+		if (fileName.indexOf(".xlsx") > -1) {
+			question = uploadQuestionService.ExcelParse_xlsx(excelFile.getInputStream(), question);
+		}
+		else if(fileName.indexOf(".xls") > -1) {
+			question = uploadQuestionService.ExcelParse_xls(excelFile.getInputStream(), question);
+		}
 
 		ResponseEntity<String> entity = null;
 
