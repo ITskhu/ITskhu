@@ -80,17 +80,18 @@ public class ManagerController {
 	public ResponseEntity<String> questionExcelRegistry(@RequestParam(value="excelFile") MultipartFile excelFile,
 			@RequestParam(value="titleNm") String titleNm) throws Exception{
 
-		String tempName = excelFile.getOriginalFilename();
-		String fileName = new String(tempName.getBytes("8859_1"), "utf-8");
-		String titleName = new String(titleNm.getBytes("8859_1"), "utf-8");
+
+		String fileName = excelFile.getOriginalFilename();
+		//fileName = new String(fileName.getBytes("8859_1"), "utf-8");
+		//String titleName = new String(titleNm.getBytes("8859_1"), "utf-8");
 
 		System.out.println("파일 이름="+fileName );
 		System.out.println("파일 사이즈="+excelFile.getSize());
 		System.out.println("타입="+excelFile.getContentType());
-		System.out.println("titleName="+titleName);
+		System.out.println("titleName="+titleNm);
 
 		QuestionVO question = new QuestionVO();
-		question.setName(titleName);
+		question.setName(titleNm);
 
 		/*
 		 * 엑셀 파일 시그니처
@@ -107,6 +108,16 @@ public class ManagerController {
 			question = uploadQuestionService.ExcelParse_xls(excelFile.getInputStream(), question);
 		}
 
+
+		Boolean checkService = uploadQuestionService.setQuestion(question);
+
+		if(checkService != null && checkService){
+			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		}else{
+			return new ResponseEntity<String>("false", HttpStatus.BAD_REQUEST);
+		}
+
+		/*
 		ResponseEntity<String> entity = null;
 
 		if(excelFile.getSize() != 0)
@@ -117,7 +128,7 @@ public class ManagerController {
 		System.out.println(entity.toString());
 
 		return entity;
-
+		 */
 
 		/*
 		if (fileName.indexOf(".xlsx") > -1) {

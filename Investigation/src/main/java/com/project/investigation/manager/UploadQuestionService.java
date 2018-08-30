@@ -3,7 +3,11 @@ package com.project.investigation.manager;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -13,7 +17,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.investigation.VO.ItemVO;
 import com.project.investigation.VO.QuestionVO;
@@ -22,6 +28,8 @@ import com.project.investigation.VO.SentenceVO;
 @Service
 public class UploadQuestionService {
 
+	@Autowired
+	private UploadQuestionDAO dao;
 	/**
 	 * 엑셀 데이터 불러올때, 200자까지 제한하고 나머지부분은 잘라내는 기능 [한글은 2바이트 그 외엔 1바이트로 계산해서 넣어야하기 때문]
 	 * @param strData - 제한해야할 데이터값
@@ -330,4 +338,46 @@ public class UploadQuestionService {
 
 		return QuestionVO;
 	}
+
+	@Transactional(rollbackFor={Exception.class})
+	public Boolean setQuestion(QuestionVO questionVO) throws Exception {
+
+		SimpleDateFormat cvVer = new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREA);
+		SimpleDateFormat cvRegDt = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+		Date d = new Date();
+		String cvVerStr = cvVer.format(d);
+		String cvRegDtStr = cvRegDt.format(d);
+
+		questionVO.setVersion(cvVerStr);
+		questionVO.setRegistryDt(cvRegDtStr);
+
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("version", cvVerStr);
+		paramMap.put("Items", questionVO.getItems());
+		paramMap.put("Sentences", questionVO.getSentences());
+
+		System.out.println("name="+questionVO.getName());
+		System.out.println("version="+questionVO.getVersion());
+		System.out.println("registryDt="+questionVO.getRegistryDt());
+
+		for(int i=0 ; i<questionVO.getItems().size() ; i++)
+			System.out.println(questionVO.getItems().get(i).getItemNm());
+
+		for(int i=0 ; i<questionVO.getSentences().size() ; i++)
+			System.out.println(questionVO.getSentences().get(i).getSentence());
+
+		int chkReg = dao.setQuestion(questionVO);
+		int chkItem = dao.setItems(paramMap);
+		int chkSentence = dao.setSentences(paramMap);
+
+		if(chkReg > 0 && chkItem > 0 && chkSentence > 0){
+			return true;
+		}else{
+			return false;
+		}
+
+
+	}
+
+
 }

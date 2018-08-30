@@ -5,7 +5,7 @@ public class ItemVO {
 	private String version; 		//등록된 엑셀 파일의 버전
 	private Integer itemSeq;		//항목 순서
 	private String itemNm;			//항목 이름
-	private String itemCd;			//항목 코드
+	//private String itemCd;			//항목 코드
 	private String itemDec;			//항목 설명
 
 	public String getItemDec() {
@@ -32,12 +32,14 @@ public class ItemVO {
 	public void setItemNm(String itemNm) {
 		this.itemNm = itemNm;
 	}
+	/*
 	public String getItemCd() {
 		return itemCd;
 	}
 	public void setItemCd(String itemCd) {
 		this.itemCd = itemCd;
 	}
+	 */
 
 
 }

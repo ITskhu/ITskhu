@@ -6,7 +6,7 @@ public class SentenceVO {
 	private String itemNm;				//항목 이름
 	private Integer sentenceSeq;		//문항 순서
 	private String sentence;			//문항
-	private String weight;				//가중치
+	private Integer weight;				//가중치
 	public String getVersion() {
 		return version;
 	}
@@ -31,10 +31,10 @@ public class SentenceVO {
 	public void setSentence(String sentence) {
 		this.sentence = sentence;
 	}
-	public String getWeight() {
+	public Integer getWeight() {
 		return weight;
 	}
-	public void setWeight(String weight) {
+	public void setWeight(Integer weight) {
 		this.weight = weight;
 	}
 
