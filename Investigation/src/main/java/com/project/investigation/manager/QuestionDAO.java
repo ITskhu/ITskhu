@@ -1,5 +1,6 @@
 package com.project.investigation.manager;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.project.investigation.VO.QuestionVO;
 
 @Repository
-public class UploadQuestionDAO {
+public class QuestionDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -27,5 +28,10 @@ public class UploadQuestionDAO {
 	public int setSentences(Map<String, Object> paramMap) {
 
 		return sqlSession.insert("QuestionMapper.setSentences", paramMap);
+	}
+
+	public List<QuestionVO> getQuestionRegistryList(){
+
+		return sqlSession.selectList("QuestionMapper.getQuestionRegistryList");
 	}
 }

@@ -26,10 +26,10 @@ import com.project.investigation.VO.QuestionVO;
 import com.project.investigation.VO.SentenceVO;
 
 @Service
-public class UploadQuestionService {
+public class QuestionService {
 
 	@Autowired
-	private UploadQuestionDAO dao;
+	private QuestionDAO dao;
 	/**
 	 * 엑셀 데이터 불러올때, 200자까지 제한하고 나머지부분은 잘라내는 기능 [한글은 2바이트 그 외엔 1바이트로 계산해서 넣어야하기 때문]
 	 * @param strData - 제한해야할 데이터값

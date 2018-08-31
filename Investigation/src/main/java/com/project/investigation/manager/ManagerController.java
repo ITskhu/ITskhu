@@ -1,6 +1,7 @@
 package com.project.investigation.manager;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,7 +32,10 @@ import com.project.investigation.VO.QuestionVO;
 public class ManagerController {
 
 	@Autowired
-	private UploadQuestionService uploadQuestionService;
+	private QuestionService uploadQuestionService;
+
+	@Autowired
+	private ManagerService managerService;
 
 	/*
 	 * 설문 목록
@@ -40,11 +44,9 @@ public class ManagerController {
 	@GetMapping("/registry")
 	public ModelAndView questionList(){
 
-		//List<CvQuestionVO> cvQuestionList = managerService.getQuestionRegistryList();
-
+		List<QuestionVO> questionList = managerService.getQuestionRegistryList();
 		ModelAndView response = new ModelAndView("/manager/registry");
-
-		//response.addObject("cvQuestionList", cvQuestionList);
+		response.addObject("QuestionList", questionList);
 		return response;
 	}
 

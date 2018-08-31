@@ -1,4 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -22,6 +24,8 @@
 <link
 	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
 	rel="stylesheet" type="text/css" />
+ <!-- DataTables -->
+<link href="/resources/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />	
 <!-- Theme style -->
 <link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet"
 	type="text/css" />
@@ -121,7 +125,54 @@
 						</tbody>
 					</table>
 				</form>
-				
+
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title">등록된 설문</h3>
+					</div>
+					<!-- /.box-header -->
+					<div class="box-body">
+						<div id="example2_wrapper"
+							class="dataTables_wrapper form-inline dt-bootstrap">
+							<div class="row">
+								<div class="col-sm-6"></div>
+								<div class="col-sm-6"></div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<table id="example2"
+										class="table table-bordered table-hover dataTable" role="grid"
+										aria-describedby="example2_info">
+										<thead>
+											<tr role="row">
+												<th width="30px">선택</th>
+												<th>순서</th>
+												<th>제목</th>
+												<th>설문 내용</th>
+												<th>등록일</th>
+											</tr>
+										</thead>
+										<tbody>					
+<c:forEach var="Question" items="${QuestionList }" varStatus="status">	
+	<!--<c:if test="${cvq.state != 'e' }">			-->	
+	<tr>
+		<td><input type="checkbox" class="cvchkbox" id="<c:out value='${Question.version}'/>" name="<c:out value='${Question.version}'/>"></td>
+		<td><c:out value="${status.count}"/></td>		
+		<td><c:out value="${Question.name}"/></td>
+		<td><a class="btn-link" href="#" onclick="showDetailQuestion(<c:out value='${Question.version}'/>)" ><c:out value="${Question.name}"/></a></td>
+		<td><fmt:parseDate value="${Question.registryDt}" var="postDate" pattern="yyyyMMdd"/><fmt:formatDate value="${postDate}" pattern="yyyy-mm-dd"/></td>
+	</tr>
+	<!--</c:if>-->   
+</c:forEach> 
+										</tbody>
+									</table>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+					<!-- /.box-body -->
+				</div>
 			</section>
 		</div>
 		<!--  Content Wrapper -->
@@ -130,6 +181,11 @@
 	<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 	<!-- Bootstrap 3.3.2 JS -->
 	<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	<!-- DataTables -->
+	<script src="/resources/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<!-- SlimScroll -->
+	<script src="/resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
 	<script src='/resources/plugins/fastclick/fastclick.min.js'></script>
 	<!-- AdminLTE App -->
@@ -140,6 +196,17 @@
 
 	<script type="text/javascript">
 $(function () {
+	
+	
+	$('#example2').DataTable({
+		'paging'      : true,
+	    'lengthChange': true,
+	    'searching'   : false,
+	    'ordering'    : false,
+	    'info'        : true,
+	    'autoWidth'   : false
+	});
+
 	
 	$('#uploadDoc').bind({
 		click: function(e){

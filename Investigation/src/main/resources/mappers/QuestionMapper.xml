@@ -23,4 +23,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			( #{version}, #{item.itemNm}, #{item.sentenceSeq}, #{item.sentence} )
 		</foreach>
 	</insert>
+	
+	<select id="getQuestionRegistryList" resultType="QuestionVO">
+		select *
+		from question_registry
+		order by version desc
+	</select>
 </mapper>
