@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.project.investigation.VO.QuestionVO;
+import com.project.investigation.VO.SentenceVO;
 
 @Repository
 public class QuestionDAO {
@@ -33,5 +34,10 @@ public class QuestionDAO {
 	public List<QuestionVO> getQuestionRegistryList(){
 
 		return sqlSession.selectList("QuestionMapper.getQuestionRegistryList");
+	}
+
+	public List<SentenceVO> getQuestionSentenceList(String version){
+
+		return sqlSession.selectList("QuestionMapper.getQuestionSentenceList", version);
 	}
 }

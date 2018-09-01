@@ -29,4 +29,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from question_registry
 		order by version desc
 	</select>
+	
+	<select id="getQuestionSentenceList" parameterType="String" resultType="SentenceVO">
+		select *
+		from question_sentence
+		where version = #{version}
+	</select>
 </mapper>

@@ -184,6 +184,8 @@
 	<!-- DataTables -->
 	<script src="/resources/plugins/datatables/jquery.dataTables.min.js"></script>
 	<script src="/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<!-- bootbox -->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
 	<!-- SlimScroll -->
 	<script src="/resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 	<!-- FastClick -->
@@ -393,6 +395,33 @@ $(function () {
 	*/
 });
 
+function showDetailQuestion(version){
+	//1.version값으로 데이터를 json 가져온다
+	//가져온 데이터를 모달박스에 넣어 표현해준다
+	var messageFront = "<div class='table-responsive'><table class='table table-hover' id='poptable'><th class='text-center' style='padding:1.7px'>항목</th><th class='text-center' style='padding:1.7px'>순서</th><th class='text-center' style='padding:1.7px'>문장</th>";
+	var messageEnd = "</table></div>";
+	var bootboxForm = "";
+	var sendData = {"version" : version};
+	
+	$.ajax({
+		url: "registry/detail",
+		method: "POST",
+		data: sendData,
+		dataType: "json",
+		success: function(data){ 
+			//var vdata = data.data;
+			$.each(data, function(index, list){
+				bootboxForm += "<tr><td class='text-center' style='padding:1.7px'>"+list.itemNm+"</td><td class='text-center' style='padding:1.7px'>"+list.sentenceSeq+"</td><td style='padding:1.7px'>"+list.sentence+"</td></tr>"
+			});
+			bootboxForm = messageFront + bootboxForm + messageEnd;
+			bootbox.dialog({
+    	        message: bootboxForm
+			}).find('.modal-content').css({'width':'800px', 'font-size':'0.9em', 'font-weight':'bold'});
+			return true;
+		}
+	});   
+	return false;
+};
 </script>
 </body>
 

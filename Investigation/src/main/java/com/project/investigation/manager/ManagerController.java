@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.investigation.VO.QuestionVO;
+import com.project.investigation.VO.SentenceVO;
 
 
 /*
@@ -146,5 +148,16 @@ public class ManagerController {
 			return new SimpleApiResponse(false, "처리 중 오류가 발생했습니다.");
 		}
 		 */
+	}
+
+	//설문 세부내용
+	//@Secured("ROLE_CC")
+	@PostMapping("/registry/detail")
+	@ResponseBody
+	public List<SentenceVO> questionDetail(@RequestParam(value="version") String version){
+		List<SentenceVO> sentencceList = managerService.getQuestionSentenceList(version);
+		System.out.println(sentencceList.get(0).getSentence());
+		System.out.println(sentencceList.get(1).getSentence());
+		return sentencceList;
 	}
 }

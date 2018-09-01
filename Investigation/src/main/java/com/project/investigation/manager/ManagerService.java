@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.investigation.VO.QuestionVO;
+import com.project.investigation.VO.SentenceVO;
 
 @Service
 public class ManagerService {
@@ -15,5 +16,9 @@ public class ManagerService {
 
 	public List<QuestionVO> getQuestionRegistryList(){
 		return dao.getQuestionRegistryList();
+	}
+
+	public List<SentenceVO> getQuestionSentenceList(String version){
+		return dao.getQuestionSentenceList(version);
 	}
 }

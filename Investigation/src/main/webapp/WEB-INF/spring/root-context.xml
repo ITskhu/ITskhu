@@ -45,10 +45,9 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
-	<tx:annotation-driven/>
 	
 	<!-- 해당 패키지를 스캔해서 스프링 빈으로 등록해야함, @Repository와 함께 씀 -->
 	<!-- 서비스, dao, vo를 위해 서버단의 코드에 해당하는 루트 콘텐스트에도 적어줌 -->
 	<context:component-scan base-package="com.project.investigation"> </context:component-scan>
-
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 </beans>
