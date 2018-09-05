@@ -28,9 +28,11 @@ public class ManagerService {
 
 	public List<DepartmentVO> getAllDepartment(){
 		return managerDao.getAllDepartment();
+
 	}
 
 	public List<DepartmentVO> getLevelDepartment(int level){
 		return managerDao.getLevelDepartment(level);
+
 	}
 }

@@ -18,6 +18,7 @@ public class ManagerDAO {
 		return sqlSession.selectList("DepartmentMapper.getAllDepartment");
 	}
 
+
 	public List<DepartmentVO> getLevelDepartment(int level){
 		return sqlSession.selectList("DepartmentMapper.getLevelDepartment", level);
 	}

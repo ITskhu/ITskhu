@@ -54,6 +54,7 @@
 				<h1>
 					설문 출제 <small>설문을 출제합니다.</small>
 				</h1>
+<<<<<<< HEAD
 				아래 조직도는 임시로 출력한 것이라서 코드가 개판임.<br>
 				
 				<ul>
@@ -117,6 +118,83 @@
 	<script src="/resources/dist/js/demo.js" type="text/javascript"></script>
 
 
+=======
+				
+				아래 조직도는 임시로 출력한 것이라서 코드가 개판임.<br>
+				<c:forEach var="Department" items="${DepartList }" varStatus="status">
+					${Department.name}<br>	
+				</c:forEach>
+				<!-- 
+<ul>
+<c:forEach var="Department" items="${DepartList }" varStatus="status">
+	<c:if test="${Department.departLevel == 1}">
+		<li>${Department.name}
+	</c:if>
+	<c:if test="${ (Department.departLevel == 2) &&  (Department.departCode == 'A00B00')}">
+			<ul>
+				<li>
+					${Department.name}S
+				</li>	
+			</ul>
+	</c:if>
+	<c:if test="${ (Department.departLevel == 2) }">
+			<ul>
+				<li>
+					${Department.name}
+			
+	</c:if>
+	<c:if test="${Department.departLevel == 3}">
+					<ul>
+						<li>
+							${Department.name}
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</c:if>
+</c:forEach>
+</ul>  -->
+				
+				<ul>
+					<li>1
+						<ul>
+							<li>1-1</li>
+							<li>1-2</li>
+						</ul>
+					</li>
+					<li>2</li>
+					<li>3</li>
+				</ul>
+			</section>
+			<!-- Main content -->
+			<section class="content">
+					
+			</section>
+		</div>
+		<!--  Content Wrapper -->
+	</div>
+	<!-- ./wrapper -->
+	<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+	<!-- Bootstrap 3.3.2 JS -->
+	<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+	<!-- DataTables -->
+	<script src="/resources/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<!-- bootbox -->
+	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
+	<!-- SlimScroll -->
+	<script src="/resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	<!-- FastClick -->
+	<script src='/resources/plugins/fastclick/fastclick.min.js'></script>
+	<!-- AdminLTE App -->
+	<script src="/resources/dist/js/app.min.js" type="text/javascript"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="/resources/dist/js/demo.js" type="text/javascript"></script>
+
+
+	<script type="text/javascript">
+>>>>>>> branch 'master' of https://github.com/ITskhu/ITskhu.git
 
 </body>
 
