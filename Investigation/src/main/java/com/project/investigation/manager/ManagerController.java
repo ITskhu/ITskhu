@@ -164,14 +164,22 @@ public class ManagerController {
 
 	@GetMapping("/making")
 	public ModelAndView questionMaking() {
-		List<DepartmentVO> departList = managerService.getAllDepartment();
+		//List<DepartmentVO> departList = managerService.getAllDepartment();
 		ModelAndView response = new ModelAndView("/manager/making");
-		response.addObject("DepartList", departList);
-		System.out.println(departList.get(0).getName());
-		System.out.println(departList.get(1).getName());
-		System.out.println(departList.get(2).getName());
-		System.out.println(departList.get(3).getName());
-		System.out.println(departList.get(4).getName());
+
+		List<DepartmentVO> levelOne = managerService.getLevelDepartment(1);
+		response.addObject("LevelOne", levelOne);
+		List<DepartmentVO> leveltwo = managerService.getLevelDepartment(2);
+		response.addObject("LevelTwo", leveltwo);
+		List<DepartmentVO> levelThree = managerService.getLevelDepartment(3);
+		response.addObject("LevelThree", levelThree);
+
+		System.out.println(levelThree.get(1).getDepartCode());
+		System.out.println(levelThree.get(1).getDepartLevel());
+		System.out.println(levelThree.get(1).getHighDepartCode());
+		System.out.println(levelThree.get(1).getLevelCode());
+		System.out.println(levelThree.get(1).getLowDepartExist());
+		System.out.println(levelThree.get(1).getName());
 		return response;
 	}
 }
