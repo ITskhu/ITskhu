@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.investigation.VO.DepartmentVO;
 import com.project.investigation.VO.QuestionVO;
 import com.project.investigation.VO.SentenceVO;
 
@@ -12,13 +13,20 @@ import com.project.investigation.VO.SentenceVO;
 public class ManagerService {
 
 	@Autowired
-	private QuestionDAO dao;
+	private QuestionDAO QuestionDao;
+
+	@Autowired
+	private ManagerDAO managerDao;
 
 	public List<QuestionVO> getQuestionRegistryList(){
-		return dao.getQuestionRegistryList();
+		return QuestionDao.getQuestionRegistryList();
 	}
 
 	public List<SentenceVO> getQuestionSentenceList(String version){
-		return dao.getQuestionSentenceList(version);
+		return QuestionDao.getQuestionSentenceList(version);
+	}
+
+	public List<DepartmentVO> getAllDepartment(){
+		return managerDao.getAllDepartment();
 	}
 }

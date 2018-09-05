@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.investigation.VO.DepartmentVO;
 import com.project.investigation.VO.QuestionVO;
 import com.project.investigation.VO.SentenceVO;
 
@@ -159,5 +160,18 @@ public class ManagerController {
 		System.out.println(sentencceList.get(0).getSentence());
 		System.out.println(sentencceList.get(1).getSentence());
 		return sentencceList;
+	}
+
+	@GetMapping("/making")
+	public ModelAndView questionMaking() {
+		List<DepartmentVO> departList = managerService.getAllDepartment();
+		ModelAndView response = new ModelAndView("/manager/making");
+		response.addObject("DepartList", departList);
+		System.out.println(departList.get(0).getName());
+		System.out.println(departList.get(1).getName());
+		System.out.println(departList.get(2).getName());
+		System.out.println(departList.get(3).getName());
+		System.out.println(departList.get(4).getName());
+		return response;
 	}
 }
