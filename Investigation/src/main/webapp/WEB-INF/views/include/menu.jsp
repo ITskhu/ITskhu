@@ -224,7 +224,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="../widgets.html"> <i class="fa fa-th"></i>
+						<a href="/manager/making"> <i class="fa fa-th"></i>
 							<span>설문 출제 - 관리자 메뉴</span>
 							<small class="label pull-right bg-green">new</small>
 						</a>
