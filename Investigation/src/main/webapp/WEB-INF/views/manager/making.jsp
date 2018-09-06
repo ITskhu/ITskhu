@@ -16,6 +16,8 @@
 <!-- Bootstrap 3.3.4 -->
 <link href="/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet"
 	type="text/css" />
+<!-- bootstrap datepicker -->
+<link rel="stylesheet" href="/resources/plugins/datepicker/bootstrap-datepicker.css">
 <!-- Font Awesome Icons -->
 <link
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
@@ -52,49 +54,165 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					설문 출제 <small>설문을 출제합니다.</small>
+					설문 출제 <small>설문을 출제합니다, 아래 조직도는 임시로 출력한 것이라서 코드가 개판임.</small>
 				</h1>
-<<<<<<< HEAD
-				아래 조직도는 임시로 출력한 것이라서 코드가 개판임.<br>
-				
-				<ul>
-				<c:forEach var="levelOne" items="${LevelOne }" varStatus="status">
-					<li>
-						<label>
-							<input type="checkbox" value="${levelOne.name}">
-						</label>
-						<c:out value="${levelOne.name}"/>
-						<ul>
-							<c:forEach var="levelTwo" items="${LevelTwo }" varStatus="status">
-								<c:if test="${levelOne.levelCode == levelTwo.highDepartCode }">
-									<li>
-										<label>
-											<input type="checkbox" value="${levelTwo.name}">
-										</label>
-										<c:out value="${levelTwo.name}"/>
-										<ul>
-											<c:forEach var="levelThree" items="${LevelThree }" varStatus="status">
-												<c:if test="${levelTwo.levelCode == levelThree.highDepartCode }">
-													<li>
-														<label>
-															<input type="checkbox" value="${levelThree.name}">
-														</label>
-														<c:out value="${levelThree.name}"/>
-													</li>
-												</c:if>
-											</c:forEach>
-										</ul>
-									</li>
-								</c:if>
-							</c:forEach>
-						</ul>
-					</li>
-				</c:forEach>
-				</ul>
 			</section>
 			<!-- Main content -->
 			<section class="content">
-					
+				<div class="row">
+					<div class="col-md-6" style="height:400px; overflow:scroll; overflow-x:hidden">
+						<div class="box box-danger">
+							<div class="box-header with-border">
+								<h3 class="box-title">조직도</h3>
+							</div>
+							<div class="box-body">
+								<ul>
+									<c:forEach var="levelOne" items="${LevelOne }" varStatus="status">
+										<li>
+											<label>
+												<input type="checkbox" value="${levelOne.departCode}" id="${levelOne.departCode}" name="${levelOne.departCode}">
+											</label>
+											<c:out value="${levelOne.name}"/>
+											<ul>
+												<c:forEach var="levelTwo" items="${LevelTwo }" varStatus="status">
+													<c:if test="${levelOne.levelCode == levelTwo.highDepartCode }">
+														<li>
+															<label>
+																<input type="checkbox" value="${levelTwo.departCode}" id="${levelTwo.departCode}" name="${levelTwo.departCode}">
+															</label>
+															<c:out value="${levelTwo.name}"/>
+															<ul>
+																<c:forEach var="levelThree" items="${LevelThree }" varStatus="status">
+																	<c:if test="${levelTwo.levelCode == levelThree.highDepartCode }">
+																		<li>
+																			<label>
+																				<input type="checkbox" value="${levelThree.departCode}" id="${levelThree.departCode}" name="${levelThree.departCode}">
+																			</label>
+																			<c:out value="${levelThree.name}"/>
+																		</li>
+																	</c:if>
+																</c:forEach>
+															</ul>
+														</li>
+													</c:if>
+												</c:forEach>
+											</ul>
+										</li>
+									</c:forEach>
+								</ul>
+							</div>
+						</div>
+					</div> 
+					<div class="col-md-6">
+						<div class="box box-info" style="height:400px">
+							<div class="box-header with-border">
+								<h3 class="box-title">상세 정보</h3>
+							</div>
+							<div class="box-body">
+								<div class="form-group">
+									<label>제목</label> <input type="text" id="titleNm"
+										class="form-control" placeholder="제목 ...">
+								</div>
+								<div class="form-group">
+									<label>설명</label>
+									<textarea class="form-control" rows="3" placeholder="조사 설명 ..."></textarea>
+								</div>
+								
+								<div class="form-group">
+									<label>시작 날짜</label>
+									<div class="input-group date">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input type="text" class="form-control pull-right" id="startDate" readonly>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label>종료 날짜</label>
+									<div class="input-group date">
+										<div class="input-group-addon">
+											<i class="fa fa-calendar"></i>
+										</div>
+										<input type="text" class="form-control pull-right" id="endDate" readonly>
+									</div>
+								</div>
+							</div>
+							<!-- 
+							<div class="box-footer">
+								<button type="submit" class="btn btn-info pull-right">출제</button>
+							</div>
+							 -->
+						</div>
+					</div> 
+				</div>	
+				<div class="row">
+					<div class="col-md-12">
+						<div class="box box-success">
+							<div class="box-header">
+								<h3 class="box-title">등록된 설문</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<div id="example2_wrapper"
+									class="dataTables_wrapper form-inline dt-bootstrap">
+									<div class="row">
+										<div class="col-sm-6"></div>
+										<div class="col-sm-6"></div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<table id="example2"
+												class="table table-bordered table-hover dataTable"
+												role="grid" aria-describedby="example2_info">
+												<thead>
+													<tr role="row">
+														<th width="30px">선택</th>
+														<th>순서</th>
+														<th>제목</th>
+														<th>설문 내용</th>
+														<th>등록일</th>
+													</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="Question" items="${QuestionList }"
+														varStatus="status">
+														<!--<c:if test="${cvq.state != 'e' }">			-->
+														<tr>
+															<td>
+																<input type="radio" id="<c:out value='${Question.version}'/>" value="<c:out value='${Question.version}'/>" name="radio"  >
+															</td>
+															<td><c:out value="${status.count}" /></td>
+															<td><c:out value="${Question.name}" /></td>
+															<td><a class="btn-link" href="#"
+																onclick="showDetailQuestion(<c:out value='${Question.version}'/>)"><c:out
+																		value="${Question.name}" /></a></td>
+															<td><fmt:parseDate value="${Question.registryDt}"
+																	var="postDate" pattern="yyyyMMdd" />
+																<fmt:formatDate value="${postDate}" pattern="yyyy-mm-dd" /></td>
+														</tr>
+														<!--</c:if>-->
+													</c:forEach>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+								</div>
+							</div>
+							<!-- /.box-body -->
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						
+					</div>
+					<div class="col-md-4">
+						<button class="btn btn-warning btn-lg btn-block" id="makeDoc" name="makeDoc"><i class="fa fa-upload"></i>출제</button>
+					</div>
+					<div class="col-md-4"></div>
+				</div>
 			</section>
 		</div>
 		<!--  Content Wrapper -->
@@ -116,86 +234,197 @@
 	<script src="/resources/dist/js/app.min.js" type="text/javascript"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script src="/resources/dist/js/demo.js" type="text/javascript"></script>
-
-
-=======
-				
-				아래 조직도는 임시로 출력한 것이라서 코드가 개판임.<br>
-				<c:forEach var="Department" items="${DepartList }" varStatus="status">
-					${Department.name}<br>	
-				</c:forEach>
-				<!-- 
-<ul>
-<c:forEach var="Department" items="${DepartList }" varStatus="status">
-	<c:if test="${Department.departLevel == 1}">
-		<li>${Department.name}
-	</c:if>
-	<c:if test="${ (Department.departLevel == 2) &&  (Department.departCode == 'A00B00')}">
-			<ul>
-				<li>
-					${Department.name}S
-				</li>	
-			</ul>
-	</c:if>
-	<c:if test="${ (Department.departLevel == 2) }">
-			<ul>
-				<li>
-					${Department.name}
-			
-	</c:if>
-	<c:if test="${Department.departLevel == 3}">
-					<ul>
-						<li>
-							${Department.name}
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-	</c:if>
-</c:forEach>
-</ul>  -->
-				
-				<ul>
-					<li>1
-						<ul>
-							<li>1-1</li>
-							<li>1-2</li>
-						</ul>
-					</li>
-					<li>2</li>
-					<li>3</li>
-				</ul>
-			</section>
-			<!-- Main content -->
-			<section class="content">
-					
-			</section>
-		</div>
-		<!--  Content Wrapper -->
-	</div>
-	<!-- ./wrapper -->
-	<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-	<!-- Bootstrap 3.3.2 JS -->
-	<script src="/resources/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-	<!-- DataTables -->
-	<script src="/resources/plugins/datatables/jquery.dataTables.min.js"></script>
-	<script src="/resources/plugins/datatables/dataTables.bootstrap.min.js"></script>
-	<!-- bootbox -->
-	<script src="/resources/plugins/bootbox/bootbox.min.js"></script>
-	<!-- SlimScroll -->
-	<script src="/resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-	<!-- FastClick -->
-	<script src='/resources/plugins/fastclick/fastclick.min.js'></script>
-	<!-- AdminLTE App -->
-	<script src="/resources/dist/js/app.min.js" type="text/javascript"></script>
-	<!-- AdminLTE for demo purposes -->
-	<script src="/resources/dist/js/demo.js" type="text/javascript"></script>
-
-
+	<!-- bootstrap datepicker -->
+	<script src="/resources/plugins/datepicker/bootstrap-datepicker_2.js"></script>
 	<script type="text/javascript">
->>>>>>> branch 'master' of https://github.com/ITskhu/ITskhu.git
+$(function() {
+		
+		//Date picker
+	$('#startDate').datepicker({
+		autoclose : true,
+		format: 'yyyymmdd',
+		todayHighlight: true,
+		language : 'ko'	
+	});
+	$('#endDate').datepicker({
+		autoclose : true,
+		format: 'yyyymmdd',
+		todayHighlight: true,
+		language : 'ko'
+	});
+	
+	$('#makeDoc').bind({
+		click: function(e){
+    		e.preventDefault();
+			
+			if(!checkVal()){
+				return false;
+			}
+			
+			var cvSeq = $('#cvSeq').val();
+			var cvVer = $('#selQuestion').val();
+			var titleNm = $('#titleNm').val();
+			var startDt = ($('#startDt').val()).replace(/\./g,'');
+			var endDt = ($('#endDt').val()).replace(/\./g,'');
+			var creatorName = '<c:out value='${loginUser.rank.name}'/> <c:out value='${loginUser.name}'/>';	
+			var targetSinbun = [];	
+			$("input[name='sinbun']:checked").each(function(i){
+				targetSinbun.push($(this).val());
+			});
+			var targetSosok = selectedUnit;
+			//alert(selectedUnit);
 
+			
+			//전송되는 값을 정리
+			var sendData;
+			sendData = JSON.stringify({
+	            "cvSeq":			cvSeq,
+	            "cvVer":			cvVer,
+	            "titleNm":			titleNm,
+	            "startDt":			startDt,
+	            "endDt":			endDt,
+	            "creatorName":		creatorName,			
+	            "targetSinbun":		targetSinbun,
+	            "targetSosok":		targetSosok
+	        });		
+
+			
+			var upLoadingDialog = bootbox.dialog({
+				//show: false,
+    	        message: '<p class="text-center"> <img src="${cp}static/img/loading/loading.gif" width="400px"></img><br>설문 출제 중입니다. 잠시만 기다려주세요.</p>',
+    	        closeButton: false
+    	    }).css({color:'#fff', 'font-size':'1.2em', 'font-weight':'bold'});
+
+			$.ajax({
+    			url: "making/input",
+    			method: "POST",
+    			data: sendData,
+    			beforeSend: function(xhr){
+    				//데이터를 전송하기 전에 헤더에 csrf값을 설정한다    				
+    				xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}');
+
+    				if(confirm('설문 기초자료를 입력하시겠습니까?')){
+						//버튼 unable	
+						$('#makeDoc').attr("disabled", "disabled");
+						//모달창    				
+	    				upLoadingDialog.modal('show');										
+						return true;
+					}
+					else{
+						return false;
+					}    				
+    			},
+    			dataType: "json",
+    			contentType: "application/json;charset=UTF-8",
+    			complete: function(){
+    				//upLoadingDialog.modal('hide');
+    			},
+    			success: function(data){ 
+    				var state = data.success;
+        			//alert(state); 				
+    				if(state){
+    					//upLoadingDialog.modal('hide');
+    					bootbox.alert({
+        					//title: "알림창",
+        					message: "설문 기초자료 입력을 완료했습니다.",
+        					callback: function(){
+    									location.href="${cp}manager/question/making";      									
+    								}
+        				})
+						.find('.modal-content')
+						.css({color:'#25476A', 'font-size':'1.1em', 'font-weight':'bold', 'background-color':'#fff'});
+    				}else{
+    					alertDialog("", data.message);
+        				$('#makeDoc').removeAttr("disabled");
+        				upLoadingDialog.modal('hide');
+        			}
+    			},
+    			error: function(){
+    				$('#makeDoc').removeAttr("disabled");
+    				upLoadingDialog.modal('hide');
+    				alertDialog("", "파일 전송을 실패했습니다.");
+    			}
+			});//end of ajax
+			
+		}//end of click
+	});
+
+    function alertDialog(title, message){
+    	bootbox.alert(message)
+    	.find('.modal-content')
+    	.css({color:'#f00', 'font-size':'1.1em', 'font-weight':'bold', 'background-color':'#fff'});
+    };
+
+    function checkVal(){
+    	var regExpNumber = /^\d{4}$/;
+		regExpNumber.exec($('#cvSeq').val());
+
+		if($('#cvSeq').val() == ''){
+			alertDialog("", "설문 차수를 입력해주세요.");
+			return false;
+		}else if(regExpNumber.exec($('#cvSeq').val()) == null){
+			alertDialog("", "설문 차수는 숫자 4자리만 입력해주세요.");
+			return false;
+		}else if($('#selQuestion').val() == ''){
+			alertDialog("", "설문 종류를 선택해주세요.");
+			return false;	
+		}else if($('#titleNm').val() == ''){
+			alertDialog("", "설문 제목을 입력해주세요.");
+			return false;	
+		}else if($('#startDt').val() == ''){
+			alertDialog("", "설문 시작일을 입력해주세요.");
+			return false;	
+		}else if($('#endDt').val() == ''){
+			alertDialog("", "설문 종료일을 입력해주세요.");
+			return false;	
+		}else if(selectedUnit == null || selectedUnit ==''){
+			alertDialog("", "대상 부대를 선택해주세요.");
+			return false;	
+		}
+		//시작일 종료일 반대 체크 부분 넣어야함.
+		return true;				
+    };
+	
+});
+		
+$('#example2').DataTable({
+	'paging'      : true,
+	'lengthChange': true,
+	'searching'   : false,
+	'ordering'    : false,
+	'info'        : true,
+	'autoWidth'   : false
+});
+		
+function showDetailQuestion(version){
+	//1.version값으로 데이터를 json 가져온다
+	//가져온 데이터를 모달박스에 넣어 표현해준다
+	var messageFront = "<div class='table-responsive'><table class='table table-hover' id='poptable'><th class='text-center' style='padding:1.7px'>항목</th><th class='text-center' style='padding:1.7px'>순서</th><th class='text-center' style='padding:1.7px'>문장</th>";
+	var messageEnd = "</table></div>";
+	var bootboxForm = "";
+	var sendData = {"version" : version};
+			
+			$.ajax({
+				url: "registry/detail",
+				method: "POST",
+				data: sendData,
+				dataType: "json",
+				success: function(data){ 
+					//var vdata = data.data;
+					$.each(data, function(index, list){
+						bootboxForm += "<tr><td class='text-center' style='padding:1.7px'>"+list.itemNm+"</td><td class='text-center' style='padding:1.7px'>"+list.sentenceSeq+"</td><td style='padding:1.7px'>"+list.sentence+"</td></tr>"
+					});
+					bootboxForm = messageFront + bootboxForm + messageEnd;
+					bootbox.dialog({
+		    	        message: bootboxForm
+					}).find('.modal-content').css({'width':'800px', 'font-size':'0.9em', 'font-weight':'bold'});
+					return true;
+				}
+			});   
+			return false;
+};
+
+	</script>
 </body>
 
 

@@ -175,7 +175,9 @@ public class ManagerController {
 		List<DepartmentVO> levelThree = managerService.getLevelDepartment(3);
 		response.addObject("LevelThree", levelThree);
 
-
+		List<QuestionVO> questionList = managerService.getQuestionRegistryList();
+		response.addObject("QuestionList", questionList);
 		return response;
+
 	}
 }
