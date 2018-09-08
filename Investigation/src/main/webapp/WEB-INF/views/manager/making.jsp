@@ -283,6 +283,7 @@ $(function() {
 		language : 'ko'
 	});
 	
+	
 	$('#makeDoc').bind({
 		click: function(e){
     		e.preventDefault();
