@@ -70,15 +70,16 @@
 									<c:forEach var="levelOne" items="${LevelOne }" varStatus="status">
 										<li>
 											<label>
-												<input type="checkbox" value="${levelOne.departCode}" id="${levelOne.departCode}" name="${levelOne.departCode}">
+												<input type="checkbox" value="${levelOne.departCode}" class="levelOne" name="departCheckbox">
 											</label>
+											
 											<c:out value="${levelOne.name}"/>
 											<ul>
 												<c:forEach var="levelTwo" items="${LevelTwo }" varStatus="status">
 													<c:if test="${levelOne.levelCode == levelTwo.highDepartCode }">
 														<li>
 															<label>
-																<input type="checkbox" value="${levelTwo.departCode}" id="${levelTwo.departCode}" name="${levelTwo.departCode}">
+																<input type="checkbox" value="${levelTwo.departCode}" class="levelTwo" name="departCheckbox">
 															</label>
 															<c:out value="${levelTwo.name}"/>
 															<ul>
@@ -86,7 +87,7 @@
 																	<c:if test="${levelTwo.levelCode == levelThree.highDepartCode }">
 																		<li>
 																			<label>
-																				<input type="checkbox" value="${levelThree.departCode}" id="${levelThree.departCode}" name="${levelThree.departCode}">
+																				<input type="checkbox" value="${levelThree.departCode}" class="levelThree" name="departCheckbox">
 																			</label>
 																			<c:out value="${levelThree.name}"/>
 																		</li>
@@ -115,7 +116,7 @@
 								</div>
 								<div class="form-group">
 									<label>설명</label>
-									<textarea class="form-control" rows="3" placeholder="조사 설명 ..."></textarea>
+									<textarea id="explanation" class="form-control" rows="3" placeholder="조사 설명 ..."></textarea>
 								</div>
 								
 								<div class="form-group">
@@ -180,7 +181,7 @@
 														<!--<c:if test="${cvq.state != 'e' }">			-->
 														<tr>
 															<td>
-																<input type="radio" id="<c:out value='${Question.version}'/>" value="<c:out value='${Question.version}'/>" name="radio"  >
+																<input type="radio" id="<c:out value='${Question.version}'/>" value="<c:out value='${Question.version}'/>" name="selectRadio"  >
 															</td>
 															<td><c:out value="${status.count}" /></td>
 															<td><c:out value="${Question.name}" /></td>
@@ -206,7 +207,7 @@
 				</div>
 				<div class="row">
 					<div class="col-md-4">
-						
+						<button class="btn btn-warning btn-lg btn-block" id="aaa" name="aaa"><i class="fa fa-upload"></i>점검</button>
 					</div>
 					<div class="col-md-4">
 						<button class="btn btn-warning btn-lg btn-block" id="makeDoc" name="makeDoc"><i class="fa fa-upload"></i>출제</button>
@@ -238,8 +239,37 @@
 	<script src="/resources/plugins/datepicker/bootstrap-datepicker_2.js"></script>
 	<script type="text/javascript">
 $(function() {
-		
-		//Date picker
+	
+	$('input[name=departCheckbox]').change(function(){
+		 if($(this).is(':checked')){
+			 $(this).parent().next().find('input[name=departCheckbox]').prop('checked',true );
+		 }
+		 else{
+			 $(this).parent().next().find('input[name=departCheckbox]').prop('checked',false );
+		 }
+	});
+
+	$('#aaa').bind({
+		click: function(e){
+    		e.preventDefault();
+    		var testarray = [];	
+    		
+    		if($('input[name=departCheckbox]:checked').length > 0 ){
+    			//alert("체크된 갯수="+$('input[name=departCheckbox]:checked').length);
+    			//alert( $("input[class='levelThree']:checked").length);
+    			
+    			$("input[class='levelThree']:checked").each(function(i){
+    				alert($(this).val());
+    				testarray.push($(this).val());
+    			});
+    		}else{
+    			alert($('input[name=departCheckbox]:checked').length);
+    		}
+    		
+		}
+	});
+	
+	//Date picker
 	$('#startDate').datepicker({
 		autoclose : true,
 		format: 'yyyymmdd',
@@ -257,34 +287,28 @@ $(function() {
 		click: function(e){
     		e.preventDefault();
 			
+    		//입력폼 값 검사
 			if(!checkVal()){
 				return false;
 			}
 			
-			var cvSeq = $('#cvSeq').val();
-			var cvVer = $('#selQuestion').val();
+			var version = $('input[name=selectRadio]:radio:checked').val();
 			var titleNm = $('#titleNm').val();
-			var startDt = ($('#startDt').val()).replace(/\./g,'');
-			var endDt = ($('#endDt').val()).replace(/\./g,'');
-			var creatorName = '<c:out value='${loginUser.rank.name}'/> <c:out value='${loginUser.name}'/>';	
-			var targetSinbun = [];	
-			$("input[name='sinbun']:checked").each(function(i){
-				targetSinbun.push($(this).val());
+			var startDate = $('#startDate').val();
+			var endDate = $('#endDate').val();
+			var testarray = [];	
+			$("input[name='departCheckbox']:checked").each(function(i){
+				testarray.push($(this).val());
 			});
-			var targetSosok = selectedUnit;
-			//alert(selectedUnit);
 
-			
 			//전송되는 값을 정리
+			//부서는 선택된 lv3만 보내기
 			var sendData;
 			sendData = JSON.stringify({
-	            "cvSeq":			cvSeq,
-	            "cvVer":			cvVer,
+	            "version":			version,
 	            "titleNm":			titleNm,
-	            "startDt":			startDt,
-	            "endDt":			endDt,
-	            "creatorName":		creatorName,			
-	            "targetSinbun":		targetSinbun,
+	            "startDate":		startDate,
+	            "endDate":			endDate,		
 	            "targetSosok":		targetSosok
 	        });		
 
@@ -356,29 +380,26 @@ $(function() {
     };
 
     function checkVal(){
-    	var regExpNumber = /^\d{4}$/;
-		regExpNumber.exec($('#cvSeq').val());
-
-		if($('#cvSeq').val() == ''){
-			alertDialog("", "설문 차수를 입력해주세요.");
+		var checkRadio = $('input[name=selectRadio]:radio:checked').val();
+		var checkBox = $('input[name=departCheckbox]:checked').length;
+		//var checkRadio = $('input[name=selectRadio]:checked').val();
+		if(checkRadio == ''){
+			alert("설문을 선택해주세요.");
+			return false;	
+		}else if(checkBox == 0){
+			alert("설문 타켓을 선택해주세요.");
 			return false;
-		}else if(regExpNumber.exec($('#cvSeq').val()) == null){
-			alertDialog("", "설문 차수는 숫자 4자리만 입력해주세요.");
-			return false;
-		}else if($('#selQuestion').val() == ''){
-			alertDialog("", "설문 종류를 선택해주세요.");
+		}else if($('#titleNm').val()==''){
+			alert("제목을 입력해주세요.");
 			return false;	
-		}else if($('#titleNm').val() == ''){
-			alertDialog("", "설문 제목을 입력해주세요.");
+		}else if($('#startDate').val()==''){
+			alert("시작일을 입력해주세요.");
 			return false;	
-		}else if($('#startDt').val() == ''){
-			alertDialog("", "설문 시작일을 입력해주세요.");
+		}else if($('#endDate').val()==''){
+			alert("종료일을 입력해주세요.");
 			return false;	
-		}else if($('#endDt').val() == ''){
-			alertDialog("", "설문 종료일을 입력해주세요.");
-			return false;	
-		}else if(selectedUnit == null || selectedUnit ==''){
-			alertDialog("", "대상 부대를 선택해주세요.");
+		}else if(explanation.val()==''){
+			alert("설명을 입력해주세요.");
 			return false;	
 		}
 		//시작일 종료일 반대 체크 부분 넣어야함.
@@ -395,6 +416,9 @@ $('#example2').DataTable({
 	'info'        : true,
 	'autoWidth'   : false
 });
+
+
+
 		
 function showDetailQuestion(version){
 	//1.version값으로 데이터를 json 가져온다
