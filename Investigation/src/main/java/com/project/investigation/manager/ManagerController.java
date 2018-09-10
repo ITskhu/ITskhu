@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -121,36 +122,8 @@ public class ManagerController {
 		if(checkService != null && checkService){
 			return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		}else{
-			return new ResponseEntity<String>("false", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("false", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		/*
-		ResponseEntity<String> entity = null;
-
-		if(excelFile.getSize() != 0)
-			entity = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-		else
-			entity = new ResponseEntity<String>("false", HttpStatus.BAD_REQUEST);
-
-		System.out.println(entity.toString());
-
-		return entity;
-		 */
-
-		/*
-		if (fileName.indexOf(".xlsx") > -1) {
-			cvQuestion = uploadQuestionService.ExcelParse_xlsx(excelFile.getInputStream(), cvQuestion);
-		}else if(fileName.indexOf(".xls") > -1) {
-			cvQuestion = uploadQuestionService.ExcelParse_xls(excelFile.getInputStream(), cvQuestion);
-		}
-
-		Boolean checkService = uploadQuestionService.setQuestion(cvQuestion);
-		if(checkService != null && checkService){
-			return new SimpleApiResponse(true, "정상적으로 처리되었습니다.");
-		}else{
-			return new SimpleApiResponse(false, "처리 중 오류가 발생했습니다.");
-		}
-		 */
 	}
 
 	//설문 세부내용
@@ -165,7 +138,7 @@ public class ManagerController {
 	}
 
 	@GetMapping("/making")
-	public ModelAndView questionMaking() {
+	public ModelAndView questionMaking() throws Exception{
 
 		//List<DepartmentVO> departList = managerService.getAllDepartment();
 		ModelAndView response = new ModelAndView("/manager/making");
@@ -184,7 +157,8 @@ public class ManagerController {
 	}
 
 	@PostMapping("/making/input")
-	public ResponseEntity<String> QuestionMaking(@RequestBody QuestionStateVO questionStateVO){
+	//@ResponseBody
+	public ResponseEntity<String> QuestionMaking(@RequestBody QuestionStateVO questionStateVO) throws Exception{
 
 		System.out.println(questionStateVO.getVersion());
 		System.out.println(questionStateVO.getTitleNm());
@@ -193,7 +167,21 @@ public class ManagerController {
 		for(int i=0 ; i<questionStateVO.getTargetSosok().length ; i++)
 			System.out.println(questionStateVO.getTargetSosok()[i]);
 
-		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		ResponseEntity<String> temp = null;
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Content-Type", "text/html; charset=UTF-8");
+
+		Boolean check = managerService.setQuestionMaking(questionStateVO);
+		System.out.println(check);
+		if(check==true) {
+			System.out.println("성공");
+			temp = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+		}else {
+			System.out.println("실패");
+			temp = new ResponseEntity<String>("false",  HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return temp;
 	}
 
 }

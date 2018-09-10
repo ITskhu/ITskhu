@@ -7,6 +7,13 @@ public class QuestionStateVO {
 	private String explanation;
 	private String startDate;
 	private String endDate;
+	private int stateSeq;
+	public int getStateSeq() {
+		return stateSeq;
+	}
+	public void setStateSeq(int stateSeq) {
+		this.stateSeq = stateSeq;
+	}
 	private String[] targetSosok;
 	public String getVersion() {
 		return version;

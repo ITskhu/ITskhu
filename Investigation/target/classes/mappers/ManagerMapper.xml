@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ManagerMapper">
+	<insert id="setQuestionMaking" parameterType="QuestionStateVO" useGeneratedKeys="true" keyColumn="stateSeq" keyProperty="stateSeq">
+		insert into question_state (version, titleNm, explanation, startDate, endDate)
+		values  ( #{version}, #{titleNm}, #{explanation}, #{startDate}, #{endDate})
+	</insert>
+	
+	<insert id="setTargetDepart" parameterType="java.util.HashMap">
+		insert into target_depart (stateSeq, departCode) values
+		<foreach collection="targetList" item="item" separator=",">
+			( #{stateSeq}, #{item} )
+		</foreach>
+	</insert>
+
+</mapper>

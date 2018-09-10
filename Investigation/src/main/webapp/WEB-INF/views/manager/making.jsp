@@ -283,16 +283,9 @@ $(function() {
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
 			var testarray = [];	
-			console.log(version);
-			console.log(titleNm);
-			console.log(explanation);
-			console.log(startDate);
-			console.log(endDate);
-			
-			
+
 			$("input[class='levelThree']:checked").each(function(i){
 				testarray.push($(this).val());
-				console.log($(this).val());
 			});
     	    
     		$('body').fadeTo( "slow", 1 ).find('#loading').remove();
@@ -346,12 +339,9 @@ $(function() {
 	            "targetSosok":		targetSosok
 	        });		
 
-			
 			var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
     	    loadingHtml += '<div class="loading_box" style="font-size:20pt"><img src="/resources/dist/img/loading2.gif"><br>출제 중입니다.</div></div>';
     	 
-    	    
-
 			$.ajax({
     			url: "making/input",
     			method: "POST",
@@ -367,34 +357,43 @@ $(function() {
 						return false;
 					}    				
     			},
-    			success: function(data){ 
-    				var state = data.success;
-        			//alert(state); 				
-    				if(state){
-    					//upLoadingDialog.modal('hide');
-    					bootbox.alert({
-        					//title: "알림창",
-        					message: "설문 기초자료 입력을 완료했습니다.",
-        					callback: function(){
-    									location.href="${cp}manager/question/making";      									
-    								}
-        				})
-						.find('.modal-content')
-						.css({color:'#25476A', 'font-size':'1.1em', 'font-weight':'bold', 'background-color':'#fff'});
-    				}else{
-    					alertDialog("", data.message);
-        				$('#makeDoc').removeAttr("disabled");
-        				upLoadingDialog.modal('hide');
-        			}
-    			},
-    			error: function(){
-    				alert("설문 출제를 실패했습니다.");
+    			/*
+    			success:function(data){
+					alert(data);
+					location.reload();
+				},
+				error: function(){
+            		alert("에러");
+            		$('body').fadeTo( "slow", 1 ).find('#loading').remove();
+         	   }*/
+    			complete:function(){
     				$('body').fadeTo( "slow", 1 ).find('#loading').remove();
+    				location.href="/";
     			}
-			});//end of ajax
+			});
 			
 		}//end of click
 	});
+	
+	
+	/*success:function(data){
+	console.log(data);
+	if(data == "SUCCESS"){
+		alert(data);
+		alert("설문을 출제하였습니다.");
+		$('body').fadeTo( "slow", 1 ).find('#loading').remove();
+		location.href="/";
+	}
+	else{
+		alert(data);
+		$('body').fadeTo( "slow", 1 ).find('#loading').remove();
+	}
+},
+error:function(data){
+	alert(data);
+	alert("설문 출제를 실패했습니다.");
+	$('body').fadeTo( "slow", 1 ).find('#loading').remove();
+}*/
 
     function alertDialog(title, message){
     	bootbox.alert(message)
@@ -405,7 +404,6 @@ $(function() {
     function checkVal(){
 		var checkRadio = $('input[type=radio]:checked').val();
 		var checkBox = $('input[name=departCheckbox]:checked').length;
-		console.log(checkRadio);
 		
 		if(checkRadio == undefined){
 			alert("설문을 선택해주세요.");
