@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.investigation.VO.DepartmentVO;
+import com.project.investigation.VO.QuestionStateVO;
 import com.project.investigation.VO.QuestionVO;
 import com.project.investigation.VO.SentenceVO;
 
@@ -180,4 +182,18 @@ public class ManagerController {
 		return response;
 
 	}
+
+	@PostMapping("/making/input")
+	public ResponseEntity<String> QuestionMaking(@RequestBody QuestionStateVO questionStateVO){
+
+		System.out.println(questionStateVO.getVersion());
+		System.out.println(questionStateVO.getTitleNm());
+		System.out.println(questionStateVO.getStartDate());
+		System.out.println(questionStateVO.getEndDate());
+		for(int i=0 ; i<questionStateVO.getTargetSosok().length ; i++)
+			System.out.println(questionStateVO.getTargetSosok()[i]);
+
+		return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	}
+
 }

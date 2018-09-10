@@ -42,7 +42,6 @@
         <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 <body class="skin-blue sidebar-mini">
 	<div class="wrapper">
@@ -239,6 +238,16 @@
 	<script src="/resources/plugins/datepicker/bootstrap-datepicker_2.js"></script>
 	<script type="text/javascript">
 $(function() {
+	/*
+	$('input[name=departCheckbox]').change(function(){
+		
+		 if($(this).is(':checked')){
+			 $(this).parents('ul').prev().find('input[name=departCheckbox]').prop('checked',true );
+		 }
+		 else{
+			 $(this).parents('ul').prev().find('input[name=departCheckbox]').prop('checked',false );
+		 }
+	});*/
 	
 	$('input[name=departCheckbox]').change(function(){
 		 if($(this).is(':checked')){
@@ -255,9 +264,7 @@ $(function() {
     		var testarray = [];	
     		
     		if($('input[name=departCheckbox]:checked').length > 0 ){
-    			//alert("체크된 갯수="+$('input[name=departCheckbox]:checked').length);
-    			//alert( $("input[class='levelThree']:checked").length);
-    			
+
     			$("input[class='levelThree']:checked").each(function(i){
     				alert($(this).val());
     				testarray.push($(this).val());
@@ -265,7 +272,31 @@ $(function() {
     		}else{
     			alert($('input[name=departCheckbox]:checked').length);
     		}
-    		
+    		var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
+    	    loadingHtml += '<div class="loading_box" style="font-size:20pt"><img src="/resources/dist/img/loading2.gif"><br>출제 중입니다.</div></div>';
+    	 
+    	    $('body').fadeTo( "fast", 0.4 ).append(loadingHtml);
+    	    
+    	    var version = $('input[name=selectRadio]:radio:checked').val();
+			var titleNm = $('#titleNm').val();
+			var explanation = $('#explanation').val();
+			var startDate = $('#startDate').val();
+			var endDate = $('#endDate').val();
+			var testarray = [];	
+			console.log(version);
+			console.log(titleNm);
+			console.log(explanation);
+			console.log(startDate);
+			console.log(endDate);
+			
+			
+			$("input[class='levelThree']:checked").each(function(i){
+				testarray.push($(this).val());
+				console.log($(this).val());
+			});
+    	    
+    		$('body').fadeTo( "slow", 1 ).find('#loading').remove();
+			
 		}
 	});
 	
@@ -293,13 +324,14 @@ $(function() {
 				return false;
 			}
 			
-			var version = $('input[name=selectRadio]:radio:checked').val();
+			var version = $('input[type=radio]:checked').val();
 			var titleNm = $('#titleNm').val();
+			var explanation = $('#explanation').val();
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
-			var testarray = [];	
-			$("input[name='departCheckbox']:checked").each(function(i){
-				testarray.push($(this).val());
+			var targetSosok = [];	
+			$("input[class='levelThree']:checked").each(function(i){
+				targetSosok.push($(this).val());
 			});
 
 			//전송되는 값을 정리
@@ -308,41 +340,32 @@ $(function() {
 			sendData = JSON.stringify({
 	            "version":			version,
 	            "titleNm":			titleNm,
+	            "explanation": 		explanation,
 	            "startDate":		startDate,
 	            "endDate":			endDate,		
 	            "targetSosok":		targetSosok
 	        });		
 
 			
-			var upLoadingDialog = bootbox.dialog({
-				//show: false,
-    	        message: '<p class="text-center"> <img src="${cp}static/img/loading/loading.gif" width="400px"></img><br>설문 출제 중입니다. 잠시만 기다려주세요.</p>',
-    	        closeButton: false
-    	    }).css({color:'#fff', 'font-size':'1.2em', 'font-weight':'bold'});
+			var loadingHtml = '<div id="loading" style="z-index: 1005;position: absolute; top:50%;left:50%; text-align:center;"> ';
+    	    loadingHtml += '<div class="loading_box" style="font-size:20pt"><img src="/resources/dist/img/loading2.gif"><br>출제 중입니다.</div></div>';
+    	 
+    	    
 
 			$.ajax({
     			url: "making/input",
     			method: "POST",
     			data: sendData,
-    			beforeSend: function(xhr){
-    				//데이터를 전송하기 전에 헤더에 csrf값을 설정한다    				
-    				xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}');
-
-    				if(confirm('설문 기초자료를 입력하시겠습니까?')){
-						//버튼 unable	
-						$('#makeDoc').attr("disabled", "disabled");
-						//모달창    				
-	    				upLoadingDialog.modal('show');										
+    			dataType: "json",
+    			contentType: "application/json;charset=UTF-8",
+    			beforeSend: function(){
+    				if(confirm('입력하시겠습니까?')){	
+    					$('body').fadeTo( "fast", 0.4 ).append(loadingHtml);
 						return true;
 					}
 					else{
 						return false;
 					}    				
-    			},
-    			dataType: "json",
-    			contentType: "application/json;charset=UTF-8",
-    			complete: function(){
-    				//upLoadingDialog.modal('hide');
     			},
     			success: function(data){ 
     				var state = data.success;
@@ -365,9 +388,8 @@ $(function() {
         			}
     			},
     			error: function(){
-    				$('#makeDoc').removeAttr("disabled");
-    				upLoadingDialog.modal('hide');
-    				alertDialog("", "파일 전송을 실패했습니다.");
+    				alert("설문 출제를 실패했습니다.");
+    				$('body').fadeTo( "slow", 1 ).find('#loading').remove();
     			}
 			});//end of ajax
 			
@@ -381,10 +403,11 @@ $(function() {
     };
 
     function checkVal(){
-		var checkRadio = $('input[name=selectRadio]:radio:checked').val();
+		var checkRadio = $('input[type=radio]:checked').val();
 		var checkBox = $('input[name=departCheckbox]:checked').length;
-		//var checkRadio = $('input[name=selectRadio]:checked').val();
-		if(checkRadio == ''){
+		console.log(checkRadio);
+		
+		if(checkRadio == undefined){
 			alert("설문을 선택해주세요.");
 			return false;	
 		}else if(checkBox == 0){
@@ -399,7 +422,7 @@ $(function() {
 		}else if($('#endDate').val()==''){
 			alert("종료일을 입력해주세요.");
 			return false;	
-		}else if(explanation.val()==''){
+		}else if($('#explanation').val()==''){
 			alert("설명을 입력해주세요.");
 			return false;	
 		}
