@@ -72,13 +72,6 @@
 									class="dataTables_wrapper form-inline dt-bootstrap">
 									<div class="row">
 										<div class="col-sm-12">
-											<div class="progress">
-												<div class="progress-bar" role="progressbar"
-													aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
-													style="width: 50%;">
-													
-												</div>
-											</div>
 										</div>
 									</div>
 									<div class="row">
@@ -161,28 +154,22 @@
 											 
 											 
 											<nav>
+											
 													<ul class="pager">
 												  	  <li><a href="#" onclick="Previous()">Previous</a></li>
 												   	  <li><a href="#" onclick="Next()">Next</a></li>
 												  	</ul>
+												  	
 												</nav>
 										</div>
 									</div>
-
+									<button class="btn btn-warning pull-right hide" id="submit"><i class="fa fa-upload"></i>제출</button>
 								</div>
 							</div>
 							<!-- /.box-body -->
+						
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-4">
-					
-					</div>
-					<div class="col-md-4">
-						<button class="btn btn-warning btn-lg btn-block" id="submit"><i class="fa fa-upload"></i>제출</button>
-					</div>
-					<div class="col-md-4"></div>
 				</div>
 			</section>
 		</div>
@@ -211,7 +198,8 @@
 var itemCount = '<c:out value="${itemCount}"/>';
 var sentenceCount = '<c:out value="${sentenceCount}"/>';
 $(function() {
-
+	
+	
 	$('#submit').bind({
 		click: function(e){
     		e.preventDefault();
@@ -236,6 +224,10 @@ $(function() {
   	        	{
   	        		
   	        		var chkValue = $('input[name="'+tid+'_'+ic+'"]:checked').val();
+  	        		if(chkValue==null){
+  	        			alert("선택되지 않은 문항이 있습니다.");
+  	        			return false;
+  	        		}
   	        		itemTotal += parseInt(chkValue);
   	        		allTotal += parseInt(chkValue);
   	        		answersValArray.push(chkValue); 
@@ -251,16 +243,11 @@ $(function() {
   	        var totalAvgStr = totalAvg.toString();  	        
 			var answersValStr = answersValArray.join(",");
 			var itemsAvgStr = itemsAvgArray.join(",");
-			
-  	        alert(answersValArray.join(","));
-  	        alert(itemsAvgArray.join(","));
-  	        
+
   	        //totalAvgStr  	       
   	        var inputDtStr = new Date().toISOString().slice(0,10).replace(/-/g,"");
 			var inputDtStr = new Date().toISOString();
-			
-			alert(inputDtStr);
-  	        
+
   	      	sendData = JSON.stringify({
               "version":	'<c:out value="${version}"/>',
               "stateSeq": 	'<c:out value="${stateSeq}"/>',
@@ -270,8 +257,6 @@ $(function() {
               "itemsAvg":	itemsAvgStr,
               "inputDt":	inputDtStr
           	});
-          	alert(sendData);     
-	
           	
           	var upLoadingDialog = bootbox.dialog({
         		title: '입력 전송창',
@@ -294,7 +279,7 @@ $(function() {
     			},
     			success: function(data){   
     				upLoadingDialog.modal('hide');
-    				alert(data);   				
+    				alert("참여하였습니다.");   				
     				location.href="/main";
     			},
     			error: function(xhr, status, error){
@@ -312,9 +297,10 @@ $(function() {
 });
 
 var pageCount = '<c:out value="${pageCount}"/>';
-
 function Previous(){
-	
+	if(pageCount==itemCount){
+		$("#submit").addClass('hide');
+	}
 	if(pageCount<=1){
 		pageCount = 1
 	}else{
@@ -326,7 +312,8 @@ function Previous(){
 };
 function Next(){
 	
-	if(pageCount>=itemCount){
+	if( (pageCount==itemCount+1) || pageCount>=itemCount ){
+		$("#submit").removeClass('hide');
 		pageCount = itemCount
 	}else{
 		$('#t_'+pageCount).addClass('hide');

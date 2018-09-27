@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>설문 출제</title>
+<title>항목별 통계</title>
 <meta
 	content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
 	name='viewport'>
@@ -64,7 +64,7 @@
 				<div class="row" style="margin: 10px">
 					<div class="col-md-9">
 						<div id="box1" class="box hide" >
-							<div id="container" style="min-width: 400px; max-width: 600px; height: 400px; margin: 0 auto"></div>
+							<div id="container" style="min-width: 400px; max-width: 600px; width:500px; height: 500px; margin: 0 auto"></div>
 						</div>
 					</div>
 					<div class="col-md-3" style="height: 200px">

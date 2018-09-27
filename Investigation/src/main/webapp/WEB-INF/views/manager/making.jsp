@@ -52,7 +52,7 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					설문 출제 <small>설문을 출제합니다, 아래 조직도는 임시로 출력한 것이라서 코드가 개판임.</small>
+					설문 출제 <small>설문을 출제합니다.</small>
 				</h1>
 			</section>
 			<!-- Main content -->
@@ -237,17 +237,7 @@
 	<script src="/resources/plugins/datepicker/bootstrap-datepicker_2.js"></script>
 	<script type="text/javascript">
 $(function() {
-	/*
-	$('input[name=departCheckbox]').change(function(){
-		
-		 if($(this).is(':checked')){
-			 $(this).parents('ul').prev().find('input[name=departCheckbox]').prop('checked',true );
-		 }
-		 else{
-			 $(this).parents('ul').prev().find('input[name=departCheckbox]').prop('checked',false );
-		 }
-	});*/
-	
+
 	$('input[name=departCheckbox]').change(function(){
 		 if($(this).is(':checked')){
 			 $(this).parent().next().find('input[name=departCheckbox]').prop('checked',true );
@@ -265,7 +255,6 @@ $(function() {
     		if($('input[name=departCheckbox]:checked').length > 0 ){
 
     			$("input[class='levelThree']:checked").each(function(i){
-    				alert($(this).val());
     				testarray.push($(this).val());
     			});
     		}else{
@@ -282,7 +271,13 @@ $(function() {
 			var startDate = $('#startDate').val();
 			var endDate = $('#endDate').val();
 			var testarray = [];	
-
+			
+			var start = parseInt(startDate);
+			var end = parseInt(endDate);
+			if(start>end)
+				alert("시작일 보다 종료일이 빠릅니다.");
+			
+			
 			$("input[class='levelThree']:checked").each(function(i){
 				testarray.push($(this).val());
 			});
@@ -357,7 +352,7 @@ $(function() {
 					}    				
     			},
     			complete:function(){
-    				alert("complete:function");
+    				alert("출제했습니다.")
     				$('body').fadeTo( "slow", 1 ).find('#loading').remove();
     				location.href="/main";
     			}
@@ -365,25 +360,6 @@ $(function() {
 		}//end of click
 	});
 	
-	
-	/*success:function(data){
-	console.log(data);
-	if(data == "SUCCESS"){
-		alert(data);
-		alert("설문을 출제하였습니다.");
-		$('body').fadeTo( "slow", 1 ).find('#loading').remove();
-		location.href="/";
-	}
-	else{
-		alert(data);
-		$('body').fadeTo( "slow", 1 ).find('#loading').remove();
-	}
-},
-error:function(data){
-	alert(data);
-	alert("설문 출제를 실패했습니다.");
-	$('body').fadeTo( "slow", 1 ).find('#loading').remove();
-}*/
 
     function alertDialog(title, message){
     	bootbox.alert(message)
@@ -394,6 +370,8 @@ error:function(data){
     function checkVal(){
 		var checkRadio = $('input[type=radio]:checked').val();
 		var checkBox = $('input[name=departCheckbox]:checked').length;
+		var startDate = $('#startDate').val();
+		var endDate = $('#endDate').val();
 		
 		if(checkRadio == undefined){
 			alert("설문을 선택해주세요.");
@@ -415,6 +393,14 @@ error:function(data){
 			return false;	
 		}
 		//시작일 종료일 반대 체크 부분 넣어야함.
+		var start = parseInt(startDate);
+		var end = parseInt(endDate);
+		if(start>end){
+			alert("시작일 보다 종료일이 느립니다.");
+			return false;
+		}
+			
+		
 		return true;				
     };
 	

@@ -57,39 +57,10 @@
 			</section>
 			<!-- Main content -->
 			<section class="content">
-					상단부분에는 디폴트 엑셀 파일을 등록해 놓아서 다운로드 하게 할 것임<br>
-					그 아래에는 파일 등록으로 엑셀 파일 등록<br>
-					(확장자, 시그니처 검사해서 엑셀 아닌거 거름)<br>
-					<br>
-					그 아래에는 현재 등록된 설문 목록이 나옴<br>
-					설문 목록에는 설문 이름, 문항보기, 날짜가 나와야하고<br>
-					체크박스로 삭제도 가능하게 해야함.<br><br>
-					
-								
-				<!-- 엑셀 파일 다운 
-				샘플 파일 다운<br>
-				<a href="/manager/sampledownload">
-					<button class="btn btn-primary" id="downloadDoc"
-						name="downloadDoc">
-						<i class="fa fa-download"></i>다운로드
-					</button>
-				</a>-->
-				<br><br>
-
-				<br>
-				<!-- 엑셀 파일 등록 -->
-				업로드 <br>
-				<h3>주의! .xlsx (엑셀 통합 문서, OpenOffice Spreadsheet 문서) 또는 .xls  로 업로드 해야 합니다.</h3> <br>
+				<h3>.xlsx  또는 .xls 로 업로드 해야 합니다.</h3> <br>
 				
-
 				<form class="form_upload" id="uploadForm" name="uploadForm"
 					method="post" enctype="multipart/form-data">
-					<!-- 
-					<input type="hidden" name="registryName" id="registryName"
-						value="<c:out value='${loginUser.rank.name}'/> <c:out value='${loginUser.name}'/>" />
-					<input type="hidden" name="state" id="state"
-						value="<c:out value="u"/>" />
-					 -->
 					<table class="table table-bordered">
 						<thead>
 							<tr>
@@ -240,80 +211,15 @@ $(function () {
                 },
 				success:function(data){
 					alert(data);
-					//location.reload();
+					location.reload();
 				},
 				error: function(){
             		alert("에러");
          	   }
 			})
 	
-			/*
-			$("#uploadForm").ajaxForm({				
-                //url: "${cp}manager/question/registry/excel?${_csrf.parameterName}=${_csrf.token}",
-                url: "/manager/excelregistry",
-                method: "POST",
-                enctype: "multipart/form-data",
-                dataType: "json",
-                beforeSubmit: function(){               					
-                	var title_nm = $('#titleNm').val();
-                    var excelFile = $('#excelFile').val();  
-                    //추가적으로 확장자를 체트하는 구문 추가   	
-					if(typeof title_nm != 'undefined' && title_nm != '' && excelFile != '')
-					{	
-						if(confirm('파일 업로드를 하시겠습니까?'))
-						{
-							//버튼 unable	
-							$('#uploadDoc').attr("disabled", "disabled");
-							upLoadingDialog.modal('show');										
-							return true;
-						}
-						else
-						{
-							upLoadingDialog.modal('hide');
-							return false;
-						}										
-					}
-					else
-					{	
-						alertDialog("", "파일 제목 및 파일명을 입력해주세요.");	
-						upLoadingDialog.modal('hide');										
-						return false;
-					}
-                }, //end beforeSubmit
-                success: function(data){
-                	var state = data.success;
-                	//{"success":true,"message":"정상적으로 처리되었습니다.","data":null}
-                    if(state == true)
-                    {
-                    	bootbox.alert({
-                    		//title: "알림창",
-                            message: "파일 저장을 완료했습니다.",
-                            callback: function(){
-                            	location.href="${cp}manager/question/registry";      									
-                        	}
-                    	})
-						.find('.modal-content')
-						.css({color:'#25476A', 'font-size':'1.1em', 'font-weight':'bold'});
-                        //$('#titleNm').val("");
-                        //$('#excelFile').replaceWith($('#excelFile').clone(true));
-                        //location.href="${cp}manager/question/registry";                          			
-                    }else
-                    {
-                    	$('#uploadDoc').removeAttr("disabled");
-                        upLoadingDialog.modal('hide');
-                        alertDialog("", "파일 저장을 실패했습니다. 파일확장자를 확인해주세요.");
-                    }
-				},
-                error: function(){
-                    upLoadingDialog.modal('hide');
-                    $('#uploadDoc').removeAttr("disabled");
-                    alertDialog("", "파일 전송을 실패했습니다.");
-				}
-			});
-			$("#uploadForm").submit();	*/		
-			
 		}//end of click event
-	}); //end $('#uploadDoc').bind
+	}); 
 	
 	
 	//샘플 파일 다운로드
@@ -325,74 +231,6 @@ $(function () {
 		}
 	});	
 	
-	/*
-	$('#deleteDoc').bind({
-		click: function(e){
-			e.preventDefault();
-			var chkList = [];
-
-			$("input[class='cvchkbox']:checked").each(function(i){
-				chkList.push($(this).attr('id'));
-			});
-
-			if(chkList.length > 0){
-				//삭제 재확인
-				bootbox.confirm({
-					message: "삭제 하시겠습니까?",
-					callback: function(result){
-						if(result){							
-							var sendData = {"cvRemoveList" : chkList};
-							var deleteDialog = bootbox.dialog({
-								show: false,
-        						title: '입력 전송창',        						
-    	        				message: '<p class="text-center"> 입력값을 전송 중입니다. 잠시만 기다려주세요. </p>',
-    	        				closeButton: false
-    	   					 });   	   					 	
-							$.ajax({
-				    			url: "delete",
-				    			method: "POST",
-				    			data: sendData,
-				    			beforeSend: function(xhr){
-				    				//데이터를 전송하기 전에 헤더에 csrf값을 설정한다			
-				    				xhr.setRequestHeader('${_csrf.headerName}','${_csrf.token}');				    				
-				    				deleteDialog.modal('show');
-				    			},
-				    			dataType: "json",
-				    			//contentType: "application/json;charset=UTF-8",
-				    			complete: function(){
-				    				deleteDialog.modal('hide');
-				    			},
-				    			success: function(data){ 
-				    				var state = data.success;
-				    				if(state == true){
-                        				bootbox.alert({
-                            					//title: "알림창",
-                            					message: "파일 삭제를 완료했습니다.",
-                            					callback: function(){
-                        									location.href="${cp}manager/question/registry";      									
-                        								}
-                            				})
-											.find('.modal-content')
-											.css({color:'#25476A', 'font-size':'1.1em', 'font-weight':'bold'});                        			
-                        			}else{
-                        				alertDialog("", "파일 삭제를 실패했습니다. 관리자에게 문의해주세요.");
-                        			}
-				    			},
-				    			error: function(xhr, status, error){
-				    				alertDialog("", "명령어 전송을 실패했습니다.");
-				    			}
-							});//end of ajax
-				    			
-						}								
-					}
-				}).find('.modal-content').css({color:'#f00', 'font-size':'1.1em', 'font-weight':'bold'});				
-				
-			}else{
-				alertDialog("", "삭제할 항목을 선택해주세요.");
-			}
-		}
-	});	
-	*/
 });
 
 function showDetailQuestion(version){

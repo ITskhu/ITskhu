@@ -191,6 +191,13 @@ $(function () {
 		        y: 70,
 		        layout: 'vertical'
 		    },
+		    plotOptions: {
+		        line: {
+		            dataLabels: {
+		                enabled: true
+		            }
+		        }
+		    },
 		    series: dataArr
 		});
 	});

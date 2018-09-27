@@ -48,15 +48,8 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					메인 페이지 <small>설문 Preview</small>
+					메인<small> Preview</small>
 				</h1>
-				<!-- 
-				<ol class="breadcrumb">
-					<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-					<li><a href="#">Forms</a></li>
-					<li class="active">General Elements</li>
-				</ol>
-				 -->
 			</section>
 
 			<!-- Main content -->
@@ -68,8 +61,7 @@
 
 						<div class="box">
 							<div class="box-header with-border">
-								<h3 class="box-title">HOME PAGE</h3>
-								
+								<h3 class="box-title">좌측의 메뉴를 클릭하세요.</h3>
 							</div>
 						</div>
 					</div>

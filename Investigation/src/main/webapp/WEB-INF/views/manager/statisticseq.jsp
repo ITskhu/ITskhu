@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>설문 출제</title>
+<title>설문 통계</title>
 <meta
 	content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no'
 	name='viewport'>
@@ -51,7 +51,7 @@
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
 				<h1>
-					설문 진행 상황 <small>설문의 진행 상황을 확인합니다.</small>
+					설문 목록<small>원하는 설문의 통계를 선택하세요.</small>
 				</h1>
 			</section>
 			<!-- Main content -->

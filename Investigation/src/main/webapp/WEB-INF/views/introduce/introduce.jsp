@@ -63,7 +63,7 @@
 
 						<div class="box">
 							<div class="box-header with-border">
-								<h3 class="box-title">HOME PAGE</h3>
+								<h3 class="box-title">엑셀 파일을 이용하여 설문을 등록하고, 설문 조사를 실시합니다.</h3>
 							</div>
 						</div>
 					</div>

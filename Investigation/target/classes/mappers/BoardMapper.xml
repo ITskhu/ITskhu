@@ -16,6 +16,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM question_state a , user_state b 
 		where (a.stateSeq = b.stateSeq ) and b.empno = #{empno} and (b.state='y' or a.state = 'n')
 	</select>
+	
+	<update id="setQuestionState" parameterType="String">
+	<![CDATA[
+		update question_state
+		set state = 'n'
+		where endDate < #{date}	
+	]]>
+	</update>
+	
 	<!-- 
 	<select id="getStateY" resultType="QuestionStateVO">
 		SELECT a.* , b.departCode

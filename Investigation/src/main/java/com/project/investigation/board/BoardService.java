@@ -21,6 +21,9 @@ public class BoardService {
 		return boardDAO.getStateN(empno);
 	}
 
+	public void setQuestionState(String date) {
+		boardDAO.setQuestionState(date);
+	}
 
 
 }

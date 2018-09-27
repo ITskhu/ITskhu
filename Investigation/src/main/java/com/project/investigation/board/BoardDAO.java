@@ -22,5 +22,8 @@ public class BoardDAO {
 		return sqlSession.selectList("BoardMapper.getStateN",empno);
 	}
 
+	public void setQuestionState(String date) {
+		sqlSession.selectList("BoardMapper.setQuestionState",date);
+	}
 
 }
