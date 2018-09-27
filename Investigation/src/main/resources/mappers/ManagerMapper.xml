@@ -2,7 +2,6 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="ManagerMapper">
 	<insert id="setQuestionMaking" parameterType="QuestionStateVO" useGeneratedKeys="true" keyColumn="stateSeq" keyProperty="stateSeq">
 		insert into question_state (version, titleNm, explanation, startDate, endDate)
@@ -15,5 +14,107 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			( #{stateSeq}, #{item} )
 		</foreach>
 	</insert>
+	
+	<select id="getTargetDepartUser" resultType="Integer">
+		select empno from employee_table
+		where departCode = #{depart}
+	</select>
 
+	<insert id="setUserState" parameterType="java.util.HashMap">
+		insert into user_state (stateSeq, empno) values
+		<foreach collection="targetUser" item="item" separator=",">
+			( #{stateSeq}, #{item} )
+		</foreach>
+	</insert>
+	
+	<select id="getAllDetailList" resultType="QuestionStateVO">
+		SELECT * FROM question_state
+	</select>
+	
+	<select id="getAllList" resultType="QuestionStateVO">
+		SELECT * FROM question_state
+	</select>
+	
+	<select id="getTargetList" resultType="String">
+		SELECT departCode FROM target_depart 
+		where stateSeq = #{stateSeq};
+	</select>
+	
+	<select id="getDepartEmpCount" resultType="Integer">
+		SELECT count(*) FROM employee_table
+		where departCode = #{name}
+	</select>
+	
+	<!-- 생각해보니까 user_result에서 카운트만 가져와도 됐는데... 아래에 getAnswerCount2 만듬 -->
+	<select id="getAnswerCount" resultType="Integer">
+		SELECT count(*) FROM user_state
+		where stateSeq = #{stateSeq} and state = 'y'
+	</select>
+	
+	<select id="getItemCount" resultType="Integer">
+		SELECT count(*) FROM question_item
+		where version= #{version}
+	</select>
+	
+	<select id="getUserItemAvg" resultType="String">
+		SELECT itemsAvg FROM user_result 
+		where stateSeq = #{stateSeq};
+	</select>
+	
+	<select id="getAnswerCount2" resultType="Integer">
+		SELECT count(*) FROM user_result
+		where stateSeq = #{stateSeq}
+	</select>
+	
+	<select id="getDepartItemAvg" parameterType="java.util.HashMap" resultType="String">
+		SELECT a.itemsAvg FROM user_result a , (SELECT b.empno FROM employee_table b where b.departCode=#{departCode}) c
+		where a.stateSeq = #{stateSeq} and a.empno = c.empno
+	</select>
+	
+	<select id="getDepartAns" parameterType="java.util.HashMap" resultType="String">
+		SELECT a.answersVal FROM user_result a , (SELECT b.empno FROM employee_table b where b.departCode=#{departCode}) c
+		where a.stateSeq = #{stateSeq} and a.empno = c.empno
+	</select>
+	
+	<select id="getAnswerCount4" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(*) FROM user_result a , (SELECT b.empno FROM employee_table b where b.departCode=#{departCode}) c
+		where a.stateSeq = #{stateSeq} and a.empno = c.empno
+	</select>
+	
+	<select id="getAnswerCount3" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(*) FROM user_result a , (SELECT b.empno FROM employee_table b where b.departCode=#{departCode}) c
+		where a.stateSeq = #{stateSeq} and a.empno = c.empno
+	</select>
+	
+	<select id="getSameVersion2" resultType="SameVersionVO">
+		select stateSeq, version, titleNm
+		from question_state
+		where version= #{version} and stateSeq != #{stateSeq}
+	</select>
+	
+	<select id="getSentenceCount" resultType="Integer">
+		SELECT count(*) FROM question_sentence
+		where version= #{version}
+	</select>
+	
+	<select id="getUserAnswer" resultType="String">
+		SELECT answersVal FROM user_result
+		where stateSeq = #{stateSeq}
+	</select>
+	
+	<select id="getTargetDepart"  resultType="DepartmentVO">
+		SELECT a.departCode, b.name FROM target_depart a 
+		left join department_table b
+		on a.departCode = b.departCode
+		where stateSeq = #{stateSeq};
+	</select>
+	
+	<select id="getTargetOtherDepart" parameterType="java.util.HashMap" resultType="DepartmentVO">
+		SELECT a.departCode, b.name FROM target_depart a 
+		left join department_table b
+		on a.departCode = b.departCode
+		where stateSeq = #{stateSeq} and a.departCode != #{departCode};
+	</select>
+	
+	
 </mapper>

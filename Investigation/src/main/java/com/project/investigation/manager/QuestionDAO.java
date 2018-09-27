@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.project.investigation.VO.ItemVO;
 import com.project.investigation.VO.QuestionVO;
 import com.project.investigation.VO.SentenceVO;
 
@@ -40,4 +41,10 @@ public class QuestionDAO {
 
 		return sqlSession.selectList("QuestionMapper.getQuestionSentenceList", version);
 	}
+
+	public List<ItemVO> getQuestionItemList(String version){
+
+		return sqlSession.selectList("QuestionMapper.getQuestionItemList", version);
+	}
+
 }

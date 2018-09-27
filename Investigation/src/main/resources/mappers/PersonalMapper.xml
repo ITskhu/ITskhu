@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PersonalMapper">
+	<insert id="SetUserResult" parameterType="ResultUserVO">
+		insert into user_result (version, stateSeq, empno, answersVal, totalAvg ,itemsAvg, inputDt)	
+		values (#{version}, #{stateSeq}, #{empno}, #{answersVal}, #{totalAvg}, #{itemsAvg},#{inputDt})
+	</insert>
+	<update id="setUserState" parameterType="java.util.HashMap">
+		update user_state
+		set inputDt = #{inputDt} , state = 'y'
+		where stateSeq = #{stateSeq} and empno = #{empno}	
+	</update>
+	<select id="getAnswerList" resultType="QuestionStateVO">
+		SELECT a.*
+		FROM question_state a , user_state b 
+		where (a.stateSeq = b.stateSeq ) and b.empno = #{empno} and (b.state='y')
+	</select>
+	
+	<select id="getPersonalResult" parameterType="java.util.HashMap" resultType="ResultUserVO">
+		select stateSeq, empno, totalAvg, itemsAvg, version
+		from user_result
+		where empno = #{empno} and stateSeq = #{stateSeq}
+	</select>
+	
+	<select id="getSameVersion" resultType="SameVersionVO">
+		select a.stateSeq, a.version, b.titleNm
+		from user_result a
+		left join question_state b
+		on a.stateSeq = b.stateSeq 
+		where a.empno = #{empno} and a.version= #{version} and a.stateSeq != #{stateSeq}
+	</select>
+</mapper>

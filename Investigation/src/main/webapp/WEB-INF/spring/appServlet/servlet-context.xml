@@ -12,7 +12,7 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven/>
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -34,5 +34,22 @@
 	<context:component-scan base-package="com.project.investigation" />
 	
 	
+	<beans:bean id="authInterceptor" class="com.project.investigation.interceptor.AuthInterceptor"></beans:bean>
+	<beans:bean id="loginInterceptor" class="com.project.investigation.interceptor.LoginInterceptor"></beans:bean>
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/loginPost" />
+			<beans:ref bean="loginInterceptor" />
+		</interceptor>
+		
+		<interceptor>
+	   		<mapping path="/introduce/**"/>
+	   		<mapping path="/manager/**"/>
+	   		<mapping path="/personal/**"/>
+	   		<mapping path="/state/**"/>
+	   		<mapping path="/main"/>
+	    	<beans:ref bean="authInterceptor"/>
+	  </interceptor>
+	</interceptors>
 	
 </beans:beans>

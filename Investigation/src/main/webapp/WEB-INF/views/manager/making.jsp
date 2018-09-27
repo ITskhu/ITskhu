@@ -1,7 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -26,7 +25,7 @@
 <link
 	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
 	rel="stylesheet" type="text/css" />
- <!-- DataTables -->
+<!-- DataTables -->
 <link href="/resources/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />	
 <!-- Theme style -->
 <link href="/resources/dist/css/AdminLTE.min.css" rel="stylesheet"
@@ -188,7 +187,7 @@
 																onclick="showDetailQuestion(<c:out value='${Question.version}'/>)"><c:out
 																		value="${Question.name}" /></a></td>
 															<td><fmt:parseDate value="${Question.registryDt}"
-																	var="postDate" pattern="yyyyMMdd" />
+																	var="postDate" pattern="yyyymmdd" />
 																<fmt:formatDate value="${postDate}" pattern="yyyy-mm-dd" /></td>
 														</tr>
 														<!--</c:if>-->
@@ -357,21 +356,12 @@ $(function() {
 						return false;
 					}    				
     			},
-    			/*
-    			success:function(data){
-					alert(data);
-					location.reload();
-				},
-				error: function(){
-            		alert("에러");
-            		$('body').fadeTo( "slow", 1 ).find('#loading').remove();
-         	   }*/
     			complete:function(){
+    				alert("complete:function");
     				$('body').fadeTo( "slow", 1 ).find('#loading').remove();
-    				location.href="/";
+    				location.href="/main";
     			}
 			});
-			
 		}//end of click
 	});
 	

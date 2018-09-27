@@ -35,4 +35,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from question_sentence
 		where version = #{version}
 	</select>
+	
+	<select id="getQuestionItemList" parameterType="String" resultType="ItemVO">
+		select *
+		from question_item
+		where version = #{version}
+	</select>
 </mapper>

@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ page session="false"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -160,7 +160,7 @@
 		<td><c:out value="${status.count}"/></td>		
 		<td><c:out value="${Question.name}"/></td>
 		<td><a class="btn-link" href="#" onclick="showDetailQuestion(<c:out value='${Question.version}'/>)" ><c:out value="${Question.name}"/></a></td>
-		<td><fmt:parseDate value="${Question.registryDt}" var="postDate" pattern="yyyyMMdd"/><fmt:formatDate value="${postDate}" pattern="yyyy-mm-dd"/></td>
+		<td><fmt:parseDate value="${Question.registryDt}" var="postDate" pattern="yyyymmdd"/><fmt:formatDate value="${postDate}" pattern="yyyy-mm-dd"/></td>
 	</tr>
 	<!--</c:if>-->   
 </c:forEach> 
@@ -240,7 +240,7 @@ $(function () {
                 },
 				success:function(data){
 					alert(data);
-					location.reload();
+					//location.reload();
 				},
 				error: function(){
             		alert("에러");

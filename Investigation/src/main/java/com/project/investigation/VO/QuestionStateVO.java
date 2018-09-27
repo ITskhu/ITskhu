@@ -8,6 +8,35 @@ public class QuestionStateVO {
 	private String startDate;
 	private String endDate;
 	private int stateSeq;
+	private char state;
+	private int targetCount;
+	private int answerCount;
+	private double answerRatio;
+
+	public double getAnswerRatio() {
+		return answerRatio;
+	}
+	public void setAnswerRatio(double answerRatio) {
+		this.answerRatio = answerRatio;
+	}
+	public int getAnswerCount() {
+		return answerCount;
+	}
+	public void setAnswerCount(int answerCount) {
+		this.answerCount = answerCount;
+	}
+	public int getTargetCount() {
+		return targetCount;
+	}
+	public void setTargetCount(int targetCount) {
+		this.targetCount = targetCount;
+	}
+	public char getState() {
+		return state;
+	}
+	public void setState(char state) {
+		this.state = state;
+	}
 	public int getStateSeq() {
 		return stateSeq;
 	}

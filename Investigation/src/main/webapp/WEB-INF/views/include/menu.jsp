@@ -1,101 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>		
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="/" class="logo"> 
+			<a href="/main" class="logo"> 
 				<span class="logo-lg"><b>Investigation</b> System</span>
 			</a>
 			<!-- Header Navbar: style can be found in header.less -->
 			<nav class="navbar navbar-static-top" role="navigation">
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
-						<!-- Messages: style can be found in dropdown.less-->
-						<li class="dropdown messages-menu">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="fa fa-envelope-o"></i>
-								<span class="label label-success">4</span>
-							</a>
-						</li>
-						<!-- Tasks: style can be found in dropdown.less -->
-						<li class="dropdown tasks-menu">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<i class="fa fa-flag-o"></i> 
-								<span class="label label-danger"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<li class="header">진행률</li>
-								<li>
-									<!-- inner menu: contains the actual data -->
-									<ul class="menu">
-										<li>
-											<!-- Task item -->
-											<a href="#">
-												<h3>
-													설문1 <small class="pull-right">20%</small>
-												</h3>
-												<div class="progress xs">
-													<div class="progress-bar progress-bar-aqua"
-														style="width: 20%" role="progressbar" aria-valuenow="20"
-														aria-valuemin="0" aria-valuemax="100">
-														<span class="sr-only">20% Complete</span>
-													</div>
-												</div>
-											</a>
-										</li>
-										<!-- end task item -->
-										<li>
-											<!-- Task item -->
-											<a href="#">
-												<h3>
-													설문2 <small class="pull-right">40%</small>
-												</h3>
-												<div class="progress xs">
-													<div class="progress-bar progress-bar-green"
-														style="width: 40%" role="progressbar" aria-valuenow="20"
-														aria-valuemin="0" aria-valuemax="100">
-														<span class="sr-only">40% Complete</span>
-													</div>
-												</div>
-											</a>
-										</li>
-										<!-- end task item -->
-										<li>
-											<!-- Task item --> 
-											<a href="#">
-												<h3>
-													설문3 <small class="pull-right">60%</small>
-												</h3>
-												<div class="progress xs">
-													<div class="progress-bar progress-bar-red"
-														style="width: 60%" role="progressbar" aria-valuenow="20"
-														aria-valuemin="0" aria-valuemax="100">
-														<span class="sr-only">60% Complete</span>
-													</div>
-												</div>
-											</a>
-										</li>
-										<!-- end task item -->
-										<li>
-											<!-- Task item --> 
-											<a href="#">
-												<h3>
-													설문4 <small class="pull-right">80%</small>
-												</h3>
-												<div class="progress xs">
-													<div class="progress-bar progress-bar-yellow"
-														style="width: 80%" role="progressbar" aria-valuenow="20"
-														aria-valuemin="0" aria-valuemax="100">
-														<span class="sr-only">80% Complete</span>
-													</div>
-												</div>
-											</a>
-										</li>
-										<!-- end task item -->
-									</ul>
-								</li>
-								<li class="footer"><a href="#">View all tasks</a></li>
-							</ul>
-						</li>
+						
 						<!-- User Account: style can be found in dropdown.less -->
 						<li class="dropdown user user-menu">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -108,24 +23,18 @@
 								<li class="user-header">
 									<img src="/resources/dist/img/testimage.jpg" class="img-circle"
 										alt="User Image" />
-									<p><small>이름 : 전경준 <br>
-										소속 : aa - bb - cc <br>
-										사원번호 - 124221 <br></small>
+									<p><small>이름 : ${login.name } <br>
+										부서코드 : ${login.departCode } <br>
+										사원번호 : ${login.empno }<br></small>
 									</p>
 								</li>
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-right">
-										<a href="#" class="btn btn-default btn-flat">Sign out</a>
+										<a href="/user/logout" class="btn btn-default btn-flat">Sign out</a>
 									</div>
 								</li>
 							</ul>
-						</li>
-						<!-- Control Sidebar Toggle Button -->
-						<li>
-							<a href="#" data-toggle="control-sidebar"><i
-								class="fa fa-gears"></i>
-							</a>
 						</li>
 					</ul>
 				</div>
@@ -181,7 +90,7 @@
 						</ul>
 					</li>
 					<li class="treeview">
-						<a href="/investigation/state"> 
+						<a href="/state"> 
 							<i class="fa fa-files-o"></i>
 							<span>설문 참여</span>
 							<span class="label label-primary pull-right">4</span>
@@ -212,61 +121,48 @@
 						-->
 					</li>
 					<li>
-						<a href="../widgets.html"> <i class="fa fa-th"></i>
+						<a href="/personal"> <i class="fa fa-th"></i>
 							<span>설문 결과(개인)</span>
 							<small class="label pull-right bg-green">new</small>
 						</a>
 					</li>
-					<li>
-						<a href="/manager/registry"> <i class="fa fa-th"></i>
-							<span>설문 등록 - 관리자 메뉴</span>
-							<small class="label pull-right bg-green">new</small>
-						</a>
-					</li>
-					<li>
-						<a href="/manager/making"> <i class="fa fa-th"></i>
-							<span>설문 출제 - 관리자 메뉴</span>
-							<small class="label pull-right bg-green">new</small>
-						</a>
-					</li>
-					<li>
-						<a href="../widgets.html"> <i class="fa fa-th"></i>
-							<span>설문 결과 - 관리자 메뉴</span>
-							<small class="label pull-right bg-green">new</small>
-						</a>
-						<!--  이거 클릭하면 나오는 페이지에서
-						설문 차수, 조사 대상, 조사 인원, 답변율 보여주고
-						체크 박스로 비교 하고 싶은 설문 선택 두개 할 수 있게 하고
-						각 설문 별로 결과보기 버튼 옆에 누르기 -->
-					</li>
-					<li class="treeview">
-						<a href="#"> <i
-							class="fa fa-pie-chart"></i> <span>ㅌㅌ</span> <i
-							class="fa fa-angle-left pull-right"></i>
-						</a>
-						<ul class="treeview-menu">
-							<li>
-								<a href="../charts/chartjs.html"><i
-									class="fa fa-circle-o"></i> 답변율
-								</a>
-							</li>
-							<li>
-								<a href="../charts/morris.html"><i
-									class="fa fa-circle-o"></i> Morris
-								</a>
-							</li>
-							<li>
-								<a href="../charts/flot.html"><i
-									class="fa fa-circle-o"></i> Flot
-								</a>
-							</li>
-							<li>
-								<a href="../charts/inline.html"><i
-									class="fa fa-circle-o"></i> Inline charts
-								</a>
-							</li>
-						</ul>
-					</li>
+					<c:if test="${login.master==1}">
+						<li>
+							<a href="/manager/registry"> <i class="fa fa-th"></i>
+								<span>설문 등록 - 관리자 메뉴</span>
+								<small class="label pull-right bg-green">new</small>
+							</a>
+						</li>
+						<li>
+							<a href="/manager/making"> <i class="fa fa-th"></i>
+								<span>설문 출제 - 관리자 메뉴</span>
+								<small class="label pull-right bg-green">new</small>
+							</a>
+						</li>
+	
+							<!--  이거 클릭하면 나오는 페이지에서
+							설문 차수, 조사 대상, 조사 인원, 답변율 보여주고
+							체크 박스로 비교 하고 싶은 설문 선택 두개 할 수 있게 하고
+							각 설문 별로 결과보기 버튼 옆에 누르기 -->
+						<li class="treeview">
+							<a href="#"> <i
+								class="fa fa-pie-chart"></i> <span>설문 결과 - 관리자 메뉴</span> <i
+								class="fa fa-angle-left pull-right"></i>
+							</a>
+							<ul class="treeview-menu">
+								<li>
+									<a href="/manager/progress"><i
+										class="fa fa-circle-o"></i>설문 진행 상황
+									</a>
+								</li>
+								<li>
+									<a href="/manager/statisticseq"><i
+										class="fa fa-circle-o"></i>통계
+									</a>
+								</li>
+							</ul>
+						</li>
+					</c:if>
 					<!--  
 					<li class="treeview">
 						<a href="#"> <i class="fa fa-laptop"></i>

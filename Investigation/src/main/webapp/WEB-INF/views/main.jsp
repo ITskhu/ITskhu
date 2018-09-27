@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -40,7 +39,7 @@
 </head>
 
 <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-<body class="skin-blue sidebar-mini">
+<body class="skin-black sidebar-mini">
 	<div class="wrapper">
 		
 		<%@include file="include/menu.jsp" %>
@@ -70,6 +69,7 @@
 						<div class="box">
 							<div class="box-header with-border">
 								<h3 class="box-title">HOME PAGE</h3>
+								
 							</div>
 						</div>
 					</div>
